@@ -1,17 +1,61 @@
 import * as React from "react";
-import { ChakraProvider, Box, Grid, extendTheme, chakra } from "@chakra-ui/react";
+import { ChakraProvider, Box, Grid, extendTheme, theme as defaultTheme } from "@chakra-ui/react";
 
 import Header from "./Header";
 import StockTimeSeries from "./StockTimeSeries";
 
 const theme = extendTheme({
+  initialColorMode: "dark",
   styles: {
     global: {
       "html, body, #root": {
         height: "100%",
       },
+      ".rdrDateDisplayWrapper": {
+        background: "transparent",
+      },
+      ".rdrNextPrevButton": {
+        background: defaultTheme.colors.blue[100],
+      },
+      ".rdrDateDisplayItem": {
+        borderColor: defaultTheme.colors.blue[200],
+        background: "transparent",
+      },
+      ".rdrDateDisplayItemActive": {
+        color: defaultTheme.colors.orange[300],
+        borderColor: defaultTheme.colors.orange[300],
+      },
+      ".rdrDateDisplayItem.rdrDateDisplayItemActive input[readonly]": {
+        color: defaultTheme.colors.orange[300],
+      },
+      ".rdrDateDisplayWrapper input[readonly]::placeholder": {
+        color: defaultTheme.colors.blue[200],
+      },
+      ".rdrDateDisplayWrapper input[readonly]": {
+        color: defaultTheme.colors.blue[200],
+        background: "transparent",
+      },
+      ".rdrMonthAndYearPickers select": {
+        border: `1px solid ${defaultTheme.colors.blue[200]}`,
+        color: defaultTheme.colors.blue[200],
+      },
+      ".rdrMonthAndYearPickers select:hover": {
+        background: defaultTheme.colors.whiteAlpha[200],
+      },
       ".rdrMonth": {
         alignSelf: "center",
+      },
+      ".rdrDateRangeWrapper": {
+        background: "transparent",
+      },
+      ".rdrDayNumber span": {
+        color: defaultTheme.colors.whiteAlpha[900],
+      },
+      ".rdrDayPassive .rdrDayNumber span": {
+        color: defaultTheme.colors.whiteAlpha[300],
+      },
+      ".rdrDayDisabled": {
+        background: defaultTheme.colors.blackAlpha[500],
       },
     },
   },

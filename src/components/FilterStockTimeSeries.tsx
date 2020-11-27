@@ -55,7 +55,6 @@ const FilterStockTimeSeries = (props: FilterStockTimeSeriesProps) => {
           weekStartsOn={1}
           dateDisplayFormat="d MMM, yyyy"
           onChange={handleDateIntervalChange}
-          border={`1px solid ${theme.colors.gray[100]}`}
           w="100%"
         />
         <FormHelperText fontSize="md">Select start &amp; end dates in order to filter the stock data</FormHelperText>
