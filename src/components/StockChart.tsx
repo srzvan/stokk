@@ -99,11 +99,11 @@ function StockChart(props: StockChartProps) {
         tooltipTop: stockValueScale(getStockHighValue(d)),
       });
     },
-    [showTooltip, stockValueScale, dateScale]
+    [showTooltip, stockValueScale, dateScale, stockTimeSeries]
   );
 
   return (
-    <Box p={3} gridColumn="2 / span 1" position="relative">
+    <Box position="relative">
       <svg width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill="url(#area-background-gradient)" rx={14} />
         <LinearGradient id="area-background-gradient" from={styles.background.dark} to={styles.background.darker} />

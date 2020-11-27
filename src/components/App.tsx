@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChakraProvider, Box, Grid, extendTheme, theme as defaultTheme } from "@chakra-ui/react";
+import { ChakraProvider, Box, Grid, extendTheme, theme as defaultTheme, Flex } from "@chakra-ui/react";
 
 import Header from "./Header";
 import StockTimeSeries from "./StockTimeSeries";
@@ -21,12 +21,15 @@ const theme = extendTheme({
         borderColor: defaultTheme.colors.blue[200],
         background: "transparent",
       },
+      ".rdrDateDisplay": {
+        margin: 0,
+      },
       ".rdrDateDisplayItemActive": {
-        color: defaultTheme.colors.orange[300],
-        borderColor: defaultTheme.colors.orange[300],
+        color: defaultTheme.colors.yellow[200],
+        borderColor: defaultTheme.colors.yellow[200],
       },
       ".rdrDateDisplayItem.rdrDateDisplayItemActive input[readonly]": {
-        color: defaultTheme.colors.orange[300],
+        color: defaultTheme.colors.yellow[200],
       },
       ".rdrDateDisplayWrapper input[readonly]::placeholder": {
         color: defaultTheme.colors.blue[200],
@@ -73,13 +76,13 @@ export function App() {
           setQuery={setQuery}
           setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
         />
-        <Grid as="main" templateColumns="7.5rem 1fr auto 7.5rem" templateRows="auto 1fr 1fr" gap="1.5rem" fontSize="xl">
+        <Flex as="main" fontSize="xl" justifyContent="center" alignItems="center">
           <StockTimeSeries
             query={query}
             shouldFetchDailyStockTimeSeries={shouldFetchDailyStockTimeSeries}
             setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
           />
-        </Grid>
+        </Flex>
         <Box as="footer" p={5} fontSize="xl" textAlign="center">
           <p>
             Made with{" "}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { chakra } from "@chakra-ui/react";
+import { Stack, chakra, Tag, TagLabel, HStack } from "@chakra-ui/react";
 import { Range } from "react-date-range";
 
 import StockChart from "./StockChart";
@@ -70,16 +70,25 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
   return isLoading ? (
     <StockTimeSeriesLoader />
   ) : fullStockTimeSeries ? (
-    <>
-      <chakra.p gridColumn="2 / span 2">
-        Stock data available between {minDate} and {maxDate}
-      </chakra.p>
-      <StockChart
-        width={800}
-        height={480}
-        stockTimeSeries={filtered ?? fullStockTimeSeries}
-        showAverage={showAverage}
-      />
+    <HStack spacing="10em">
+      <Stack spacing={3} gridColumn="2 / span 1">
+        <chakra.p>
+          Stock data available between{" "}
+          <Tag size="lg" variant="solid" fontSize="md">
+            <TagLabel>{minDate}</TagLabel>
+          </Tag>{" "}
+          and{" "}
+          <Tag size="lg" variant="solid" fontSize="md">
+            <TagLabel>{maxDate}</TagLabel>
+          </Tag>
+        </chakra.p>
+        <StockChart
+          width={800}
+          height={480}
+          stockTimeSeries={filtered ?? fullStockTimeSeries}
+          showAverage={showAverage}
+        />
+      </Stack>
 
       <FilterStockTimeSeries
         minDate={minDate}
@@ -87,7 +96,7 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
         setFilterInterval={setFilterInterval}
         setShowAverage={setShowAverage}
       />
-    </>
+    </HStack>
   ) : (
     <chakra.p
       gridColumn="2 / -2"
@@ -97,7 +106,7 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
       justifyContent="center"
       alignItems="center"
     >
-      Use the search in the header to select a company
+      Search for a company to load its stock data. Afterwards you can filter it using the calendar.
     </chakra.p>
   );
 }
