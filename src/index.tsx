@@ -6,6 +6,9 @@ import { App } from "./components/App";
 
 import * as serviceWorker from "./serviceWorker";
 
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
