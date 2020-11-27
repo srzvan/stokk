@@ -11,7 +11,7 @@ import "react-date-range/dist/theme/default.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorModeScript />
+    <ColorModeScript initialColorMode="dark" />
     <App />
   </React.StrictMode>,
   document.getElementById("root")

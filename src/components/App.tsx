@@ -5,7 +5,6 @@ import Header from "./Header";
 import StockTimeSeries from "./StockTimeSeries";
 
 const theme = extendTheme({
-  initialColorMode: "dark",
   styles: {
     global: {
       "html, body, #root": {
