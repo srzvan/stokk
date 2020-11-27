@@ -13,8 +13,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaSearch } from "react-icons/fa";
 
 import Search from "./Search";
 
@@ -31,8 +30,8 @@ function Header(props: HeaderProps) {
 
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   return (
-    <Flex as="header" p={5} fontSize="2xl" justifyContent="space-between" alignItems="center">
-      <Heading as="h1" size="lg">
+    <Flex as="header" p={5} fontSize="2xl" direction="column" alignItems="center">
+      <Heading as="h1" size="lg" mb={4}>
         <Badge
           borderTopRightRadius={0}
           borderBottomRightRadius={0}
@@ -62,7 +61,7 @@ function Header(props: HeaderProps) {
           <FaArrowUp />
         </Badge>
       </Heading>
-      <Button variant="ghost" size="md" colorScheme="teal" onClick={onOpen} fontSize="xl">
+      <Button variant="outline" size="md" colorScheme="blue" onClick={onOpen} fontSize="xl" rightIcon={<FaSearch />}>
         Search
       </Button>
       <Modal onClose={onClose} size="xl" isOpen={isOpen} motionPreset="scale" initialFocusRef={searchInputRef}>
@@ -81,7 +80,6 @@ function Header(props: HeaderProps) {
           </ModalBody>
         </ModalContent>
       </Modal>
-      <ColorModeSwitcher />
     </Flex>
   );
 }

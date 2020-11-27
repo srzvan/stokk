@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Box, chakra, CircularProgress, Stack, theme } from "@chakra-ui/react";
+import { chakra } from "@chakra-ui/react";
 import { Range } from "react-date-range";
 
 import StockChart from "./StockChart";
 import FilterStockTimeSeries from "./FilterStockTimeSeries";
+import StockTimeSeriesLoader from "./StockTimeSeriesLoader";
 
 import { filterTimeSeries, NormalizedTimeSeries, normalizeStockData } from "../utils/daily-stock-time-series";
 import { extent } from "d3-array";
@@ -64,13 +65,10 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
 
       setFiltered(filteredTimeSeries);
     }
-  }, [filterInterval]);
+  }, [filterInterval, fullStockTimeSeries]);
 
   return isLoading ? (
-    <Stack gridColumn="2 / span 2" gridRow="1 / -1" justifySelf="center" alignSelf="center">
-      <Box as="p">Loading company data...</Box>
-      <CircularProgress isIndeterminate size="3xs" color={theme.colors.teal[500]} />
-    </Stack>
+    <StockTimeSeriesLoader />
   ) : fullStockTimeSeries ? (
     <>
       <chakra.p gridColumn="2 / span 2">
