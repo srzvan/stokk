@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, chakra, FormControl, FormHelperText, FormLabel, Stack, Switch, theme } from "@chakra-ui/react";
+import { Button, chakra, FormControl, FormHelperText, FormLabel, Stack, Switch } from "@chakra-ui/react";
 import { DateRange } from "react-date-range";
 
 import { DateInterval } from "./StockTimeSeries";

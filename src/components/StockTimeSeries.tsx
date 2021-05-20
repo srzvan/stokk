@@ -44,15 +44,20 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
           `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${query}&outputsize=full&apikey=${apiKey}`
         );
         let stockTimeSeries = await response.json();
-        let normalizedData = normalizeStockData(stockTimeSeries);
-        let [min, max] = extent(normalizedData, dataPoint => dataPoint.date);
 
-        setMinDate(min!);
-        setMaxDate(max!);
+        if (stockTimeSeries) {
+          let normalizedData = normalizeStockData(stockTimeSeries);
+          let [min, max] = extent(normalizedData, dataPoint => dataPoint.date);
 
-        setFullStockTimeSeries(normalizedData);
-        setShouldFetchDailyStockTimeSeries(false);
-        setIsLoading(false);
+          setMinDate(min!);
+          setMaxDate(max!);
+
+          setFullStockTimeSeries(normalizedData);
+          setShouldFetchDailyStockTimeSeries(false);
+          setIsLoading(false);
+        } else {
+          throw new Error("There is no data for the selected company 😕");
+        }
       } catch (err) {
         console.error(err);
       }

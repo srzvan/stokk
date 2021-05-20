@@ -74,7 +74,7 @@ function StockChart(props: StockChartProps) {
     () =>
       scaleLinear({
         range: [yMax, 0],
-        domain: [0, max(stockTimeSeries, getStockHighValue) as number],
+        domain: [0, (max(stockTimeSeries, getStockHighValue) || 0) + yMax / 3],
         nice: true,
       }),
     [yMax, stockTimeSeries]

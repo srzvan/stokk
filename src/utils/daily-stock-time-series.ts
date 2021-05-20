@@ -25,9 +25,13 @@ export type NormalizedTimeSeries = NormalizedTimeSeriesItem[];
 export function normalizeStockData(stockAPIResponse: StockAPIResponse): NormalizedTimeSeries {
   var timeSeries = Object.entries(stockAPIResponse[StockAPIResponseKeys.TIME_SERIES_DAILY]);
 
-  return timeSeries
-    .map(keepOnlyHighLowAverageValues)
-    .sort((timeSeriesItem1, timeSeriesItem2) => (timeSeriesItem1.date > timeSeriesItem2.date ? 1 : -1));
+  if (timeSeries) {
+    return timeSeries
+      .map(keepOnlyHighLowAverageValues)
+      .sort((timeSeriesItem1, timeSeriesItem2) => (timeSeriesItem1.date > timeSeriesItem2.date ? 1 : -1));
+  } else {
+    throw new Error("There is no data for the selected company 😕");
+  }
 
   /* ************************************* */
   function keepOnlyHighLowAverageValues(timeSeriesItem: [string, DailyStockTimeSeriesItemValues]) {
