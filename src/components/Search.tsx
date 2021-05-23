@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Input, Stack, theme, chakra, Button, FormControl, FormHelperText } from "@chakra-ui/react";
 
+import SuggestionsList from "./SuggestionsList";
 import { getSuggestions } from "../services/getSuggestions";
 import { normalizeSuggestions } from "../utils/suggestions";
-import SuggestionsList from "./SuggestionsList";
 
 interface SearchProps {
   query: string;
