@@ -12,7 +12,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { getSuggestions, Suggestion, SuggestionKeys, Suggestions } from "../services/getSuggestions";
+import { getSuggestions } from "../services/getSuggestions";
+import { normalizeSuggestions } from "../utils/suggestions";
 
 type SearchProps = {
   query: string;
@@ -58,15 +59,6 @@ function Search(props: SearchProps) {
 
     setSuggestions(normalizeSuggestions(suggestions));
     setIsLoading(false);
-  }
-
-  function normalizeSuggestions(suggestions: Suggestions) {
-    return suggestions.bestMatches.map(keepOnlyCompanyAndSymbolName);
-
-    /* ************************************ */
-    function keepOnlyCompanyAndSymbolName(suggestion: Suggestion) {
-      return `${suggestion[SuggestionKeys.SYMBOL]} - ${suggestion[SuggestionKeys.NAME]}`;
-    }
   }
 
   function renderSuggestions() {
