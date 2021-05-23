@@ -1,35 +1,23 @@
 import * as React from "react";
-import {
-  Box,
-  Button,
-  chakra,
-  FormControl,
-  FormHelperText,
-  Input,
-  ScaleFade,
-  Stack,
-  theme,
-  VStack,
-} from "@chakra-ui/react";
+import { Input, Stack, theme, chakra, Button, FormControl, FormHelperText } from "@chakra-ui/react";
 
 import { getSuggestions } from "../services/getSuggestions";
 import { normalizeSuggestions } from "../utils/suggestions";
+import SuggestionsList from "./SuggestionsList";
 
-type SearchProps = {
+interface SearchProps {
   query: string;
-  setQuery: (newQuery: string) => void;
   closeModal: () => void;
+  setQuery: (newQuery: string) => void;
   inputRef: React.Ref<HTMLInputElement>;
   setShouldFetchDailyStockTimeSeries: (shouldFetchDailyStockTimeSeries: boolean) => void;
-};
+}
 
-function Search(props: SearchProps) {
-  const { query, setQuery, closeModal, setShouldFetchDailyStockTimeSeries } = props;
-
-  const [suggestions, setSuggestions] = React.useState<string[]>();
-  const [typingTimeout, setTypingTimeout] = React.useState<NodeJS.Timeout>();
+function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSeries, inputRef }: SearchProps) {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [suggestions, setSuggestions] = React.useState<string[]>();
   const [isStockSymbolSet, setIsStockSymbolSet] = React.useState(false);
+  const [typingTimeout, setTypingTimeout] = React.useState<NodeJS.Timeout>();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
@@ -38,7 +26,7 @@ function Search(props: SearchProps) {
       clearTimeout(typingTimeout);
     }
 
-    if (query.length > 1) {
+    if (value.length > 1) {
       setTypingTimeout(setTimeout(() => fetchSuggestions(value), 1250));
     }
 
@@ -46,9 +34,10 @@ function Search(props: SearchProps) {
     setIsStockSymbolSet(false);
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setShouldFetchDailyStockTimeSeries(true);
+    setQuery("");
     closeModal();
   }
 
@@ -61,67 +50,34 @@ function Search(props: SearchProps) {
     setIsLoading(false);
   }
 
-  function renderSuggestions() {
-    if (query !== "" && suggestions && suggestions?.length > 0) {
-      return (
-        <VStack alignItems="start" maxHeight="10em" overflowY="auto">
-          <Box w="100%">
-            <ScaleFade initialScale={0.9} in={suggestions.length > 0}>
-              {suggestions?.map(renderSuggestion)}
-            </ScaleFade>
-          </Box>
-        </VStack>
-      );
-    }
-
-    return null;
-
-    /* ******************************** */
-    function renderSuggestion(suggestion: string, index: number) {
-      return (
-        <Box
-          as="p"
-          onClick={() => {
-            setIsStockSymbolSet(true);
-            setQuery(suggestion.split(" - ")[0]);
-          }}
-          key={index}
-          borderBottom="1px solid transparent"
-          cursor="pointer"
-          _hover={{ borderBottomColor: theme.colors.gray[100] }}
-        >
-          {suggestion}
-        </Box>
-      );
-    }
-  }
-
   return (
     <chakra.form
-      onSubmit={handleSubmit}
-      autoComplete="off"
       flex="0 0 25%"
+      autoComplete="off"
       position="relative"
+      onSubmit={handleSubmit}
       zIndex={theme.zIndices.dropdown}
     >
       <Stack spacing={3}>
         <Stack spacing={0}>
           <FormControl mb={2}>
             <Input
-              ref={props.inputRef}
-              name="query"
-              type="text"
-              placeholder="e.g. GOOGL/Google"
               required
-              onChange={handleChange}
+              type="text"
+              name="query"
               value={query}
+              ref={inputRef}
               variant="flushed"
+              onChange={handleChange}
+              placeholder="e.g. GOOGL/Google"
             />
             <FormHelperText>
               Type the name of a stock symbol/company &amp; click on any of the suggestions
             </FormHelperText>
           </FormControl>
-          {renderSuggestions()}
+          {suggestions && suggestions?.length > 0 ? (
+            <SuggestionsList suggestions={suggestions} setQuery={setQuery} setIsStockSymbolSet={setIsStockSymbolSet} />
+          ) : null}
         </Stack>
         <Button type="submit" disabled={!isStockSymbolSet} isLoading={isLoading}>
           Load stock data for selected company
