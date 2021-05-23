@@ -8,9 +8,9 @@ import { normalizeSuggestions } from "../utils/suggestions";
 interface SearchProps {
   query: string;
   closeModal: () => void;
-  setQuery: (newQuery: string) => void;
+  setQuery: (value: string) => void;
   inputRef: React.Ref<HTMLInputElement>;
-  setShouldFetchDailyStockTimeSeries: (shouldFetchDailyStockTimeSeries: boolean) => void;
+  setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
 }
 
 function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSeries, inputRef }: SearchProps) {
@@ -64,10 +64,10 @@ function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSerie
             <Input
               required
               type="text"
-              name="query"
               value={query}
               ref={inputRef}
               variant="flushed"
+              name="searchQuery"
               onChange={handleChange}
               placeholder="e.g. GOOGL/Google"
             />

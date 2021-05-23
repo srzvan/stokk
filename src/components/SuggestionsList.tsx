@@ -14,7 +14,7 @@ function SuggestionsList({ suggestions, setIsStockSymbolSet, setQuery }: IProps)
     <VStack alignItems="start" maxHeight="10em" overflowY="auto">
       <Box w="100%">
         <ScaleFade initialScale={0.9} in={suggestions.length > 0}>
-          {suggestions?.map(suggestion => (
+          {suggestions.map(suggestion => (
             <Suggestion
               key={suggestion}
               setQuery={setQuery}
