@@ -42,13 +42,17 @@ function Search(props: SearchProps) {
   const [isStockSymbolSet, setIsStockSymbolSet] = React.useState(false);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value;
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
 
-    setQuery(event.target.value);
+    if (query.length > 1) {
+      setTypingTimeout(setTimeout(() => fetchSuggestions(value), 1250));
+    }
+
+    setQuery(value);
     setIsStockSymbolSet(false);
-    setTypingTimeout(setTimeout(() => fetchSuggestions(), 500));
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -57,20 +61,18 @@ function Search(props: SearchProps) {
     closeModal();
   }
 
-  async function fetchSuggestions() {
+  async function fetchSuggestions(query: string) {
     try {
-      if (query !== "") {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        const apiKey = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
-        let response = await fetch(
-          `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query.toLowerCase()}&apikey=${apiKey}`
-        );
-        let responseData = await response.json();
+      const apiKey = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
+      let response = await fetch(
+        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query.toLowerCase()}&apikey=${apiKey}`
+      );
+      let responseData = await response.json();
 
-        setSuggestions(normalizeSuggestions(responseData));
-        setIsLoading(false);
-      }
+      setSuggestions(normalizeSuggestions(responseData));
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
     }
