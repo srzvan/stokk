@@ -12,18 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-enum SuggestionKeys {
-  SYMBOL = "1. symbol",
-  NAME = "2. name",
-}
-
-type Suggestion = {
-  [key in SuggestionKeys]: string;
-};
-
-type Suggestions = {
-  bestMatches: Suggestion[];
-};
+import { getSuggestions, Suggestion, SuggestionKeys, Suggestions } from "../services/getSuggestions";
 
 type SearchProps = {
   query: string;
@@ -42,7 +31,8 @@ function Search(props: SearchProps) {
   const [isStockSymbolSet, setIsStockSymbolSet] = React.useState(false);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value;
+    const { value } = event.target;
+
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
@@ -61,21 +51,13 @@ function Search(props: SearchProps) {
     closeModal();
   }
 
-  async function fetchSuggestions(query: string) {
-    try {
-      setIsLoading(true);
+  async function fetchSuggestions(searchQuery: string) {
+    setIsLoading(true);
 
-      const apiKey = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
-      let response = await fetch(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query.toLowerCase()}&apikey=${apiKey}`
-      );
-      let responseData = await response.json();
+    const suggestions = await getSuggestions(searchQuery);
 
-      setSuggestions(normalizeSuggestions(responseData));
-      setIsLoading(false);
-    } catch (err) {
-      console.error(err);
-    }
+    setSuggestions(normalizeSuggestions(suggestions));
+    setIsLoading(false);
   }
 
   function normalizeSuggestions(suggestions: Suggestions) {
