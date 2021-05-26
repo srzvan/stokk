@@ -18,3 +18,15 @@ type DailyStockTimeSeries = {
 export type StockAPIResponse = {
   [key in StockAPIResponseKeys]: DailyStockTimeSeries;
 };
+
+export async function getDailyStockTimeSeries(searchQuery: string) {
+  try {
+    const apiKey = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
+    let response = await fetch(
+      `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${searchQuery}&outputsize=full&apikey=${apiKey}`
+    );
+    return await response.json();
+  } catch (err) {
+    throw new Error(err);
+  }
+}

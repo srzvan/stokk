@@ -2,15 +2,15 @@ import { bisector } from "d3-array";
 import { timeFormat } from "d3-time-format";
 
 import {
-  DailyStockTimeSeriesItemValues,
-  DailyStockTimeSeriesItemValuesKeys,
   StockAPIResponse,
   StockAPIResponseKeys,
-} from "./stock-api-types";
+  DailyStockTimeSeriesItemValues,
+  DailyStockTimeSeriesItemValuesKeys,
+} from "../services/getDailyStockTimeSeries";
 
 enum NormalizedTimeSeriesItemValuesKeys {
-  HIGH = "high",
   LOW = "low",
+  HIGH = "high",
   AVERAGE = "average",
 }
 
@@ -33,7 +33,6 @@ export function normalizeStockData(stockAPIResponse: StockAPIResponse): Normaliz
     throw new Error("There is no data for the selected company 😕");
   }
 
-  /* ************************************* */
   function keepOnlyHighLowAverageValues(timeSeriesItem: [string, DailyStockTimeSeriesItemValues]) {
     const high = Number.parseFloat(timeSeriesItem[1][DailyStockTimeSeriesItemValuesKeys.HIGH]);
     const low = Number.parseFloat(timeSeriesItem[1][DailyStockTimeSeriesItemValuesKeys.LOW]);
