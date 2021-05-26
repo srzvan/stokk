@@ -16,19 +16,21 @@ export type DateInterval = {
 type StockTimeSeriesProps = {
   query: string;
   shouldFetchDailyStockTimeSeries: boolean;
-  setShouldFetchDailyStockTimeSeries: (shouldFetchDailyStockTimeSeries: boolean) => void;
+  setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
 };
 
-function StockTimeSeries(props: StockTimeSeriesProps) {
-  const { query, shouldFetchDailyStockTimeSeries, setShouldFetchDailyStockTimeSeries } = props;
-
-  const [fullStockTimeSeries, setFullStockTimeSeries] = React.useState<NormalizedTimeSeries>();
-  const [showAverage, setShowAverage] = React.useState(false);
-  const [filtered, setFiltered] = React.useState<NormalizedTimeSeries>();
-  const [filterInterval, setFilterInterval] = React.useState<{ start: Date; end: Date }>();
+function StockTimeSeries({
+  query,
+  shouldFetchDailyStockTimeSeries,
+  setShouldFetchDailyStockTimeSeries,
+}: StockTimeSeriesProps) {
   const [minDate, setMinDate] = React.useState("");
   const [maxDate, setMaxDate] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [showAverage, setShowAverage] = React.useState(false);
+  const [filtered, setFiltered] = React.useState<NormalizedTimeSeries>();
+  const [filterInterval, setFilterInterval] = React.useState<{ start: Date; end: Date }>();
+  const [fullStockTimeSeries, setFullStockTimeSeries] = React.useState<NormalizedTimeSeries>();
 
   React.useEffect(() => {
     if (shouldFetchDailyStockTimeSeries) {
@@ -81,16 +83,16 @@ function StockTimeSeries(props: StockTimeSeriesProps) {
         <StockChart
           width={800}
           height={480}
-          stockTimeSeries={filtered ?? fullStockTimeSeries}
           showAverage={showAverage}
+          stockTimeSeries={filtered ?? fullStockTimeSeries}
         />
       </Stack>
 
       <FilterStockTimeSeries
         minDate={minDate}
         maxDate={maxDate}
-        setFilterInterval={setFilterInterval}
         setShowAverage={setShowAverage}
+        setFilterInterval={setFilterInterval}
       />
     </HStack>
   ) : (
