@@ -37,7 +37,6 @@ function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSerie
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setShouldFetchDailyStockTimeSeries(true);
-    setQuery("");
     closeModal();
   }
 
