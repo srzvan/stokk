@@ -1,20 +1,18 @@
-import * as React from "react";
 import {
-  Badge,
-  Box,
-  Button,
   Flex,
-  Heading,
   Modal,
+  Button,
   ModalBody,
-  ModalCloseButton,
-  ModalContent,
   ModalHeader,
   ModalOverlay,
+  ModalContent,
   useDisclosure,
+  ModalCloseButton,
 } from "@chakra-ui/react";
-import { FaArrowDown, FaArrowUp, FaSearch } from "react-icons/fa";
+import * as React from "react";
+import { FaSearch } from "react-icons/fa";
 
+import Logo from "./Logo";
 import Search from "./Search";
 
 type HeaderProps = {
@@ -31,36 +29,7 @@ function Header(props: HeaderProps) {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   return (
     <Flex as="header" p={5} fontSize="2xl" direction="column" alignItems="center">
-      <Heading as="h1" size="lg" mb={4}>
-        <Badge
-          borderTopRightRadius={0}
-          borderBottomRightRadius={0}
-          display="inline-flex"
-          alignItems="center"
-          colorScheme="red"
-          fontSize="inherit"
-          lineHeight="short"
-        >
-          <FaArrowDown />
-          <Box as="span" marginLeft="2">
-            st
-          </Box>
-        </Badge>
-        <Badge
-          borderTopLeftRadius={0}
-          borderBottomLeftRadius={0}
-          display="inline-flex"
-          alignItems="center"
-          colorScheme="green"
-          fontSize="inherit"
-          lineHeight="short"
-        >
-          <Box as="span" marginRight={2}>
-            okk
-          </Box>
-          <FaArrowUp />
-        </Badge>
-      </Heading>
+      <Logo />
       <Button variant="outline" size="md" colorScheme="blue" onClick={onOpen} fontSize="xl" rightIcon={<FaSearch />}>
         Search
       </Button>
