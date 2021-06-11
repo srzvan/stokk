@@ -14,15 +14,15 @@ import { FaSearch } from "react-icons/fa";
 
 import Logo from "./Logo";
 import Search from "./Search";
+import { TCompany } from "./App";
 
 type HeaderProps = {
-  query: string;
-  setQuery: (newQuery: string) => void;
+  setSelectedCompany: (newCompany: TCompany) => void;
   setShouldFetchDailyStockTimeSeries: (shouldFetchDailyStockTimeSeries: boolean) => void;
 };
 
 function Header(props: HeaderProps) {
-  const { query, setQuery, setShouldFetchDailyStockTimeSeries } = props;
+  const { setSelectedCompany, setShouldFetchDailyStockTimeSeries } = props;
 
   const searchInputRef = React.useRef(null);
 
@@ -40,10 +40,9 @@ function Header(props: HeaderProps) {
           <ModalCloseButton />
           <ModalBody>
             <Search
-              inputRef={searchInputRef}
-              query={query}
-              setQuery={setQuery}
               closeModal={onToggle}
+              inputRef={searchInputRef}
+              setSelectedCompany={setSelectedCompany}
               setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
             />
           </ModalBody>

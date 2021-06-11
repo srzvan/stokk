@@ -18,21 +18,25 @@ const theme = extendTheme({
   },
 });
 
+export type TCompany = {
+  symbol: string;
+  companyName: string;
+};
+
 export function App() {
-  const [query, setQuery] = React.useState("");
+  const [selectedCompany, setSelectedCompany] = React.useState<TCompany>({ symbol: "", companyName: "" });
   const [shouldFetchDailyStockTimeSeries, setShouldFetchDailyStockTimeSeries] = React.useState(false);
 
   return (
     <ChakraProvider theme={theme}>
       <Grid h="100%" templateRows="auto 1fr auto">
         <Header
-          query={query}
-          setQuery={setQuery}
+          setSelectedCompany={setSelectedCompany}
           setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
         />
         <Flex as="main" fontSize="xl" justifyContent="center" alignItems="center">
           <StockTimeSeries
-            query={query}
+            selectedCompany={selectedCompany}
             shouldFetchDailyStockTimeSeries={shouldFetchDailyStockTimeSeries}
             setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
           />

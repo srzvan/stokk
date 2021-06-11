@@ -12,11 +12,11 @@ function Suggestion({ suggestion, setIsStockSymbolSet, setQuery }: IProps) {
     <Box
       as="p"
       cursor="pointer"
-      borderBottom="1px solid transparent"
       onClick={() => {
+        setQuery(suggestion);
         setIsStockSymbolSet(true);
-        setQuery(suggestion.split(" - ")[0]);
       }}
+      borderBottom="1px solid transparent"
       _hover={{ borderBottomColor: theme.colors.gray[100] }}
     >
       {suggestion}
