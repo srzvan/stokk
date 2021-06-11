@@ -1,19 +1,20 @@
 import * as React from "react";
 import { Input, Stack, theme, chakra, Button, FormControl, FormHelperText } from "@chakra-ui/react";
 
+import { TCompany } from "./App";
 import SuggestionsList from "./SuggestionsList";
 import { getSuggestions } from "../services/getSuggestions";
 import { normalizeSuggestions } from "../utils/suggestions";
 
 interface SearchProps {
-  query: string;
   closeModal: () => void;
-  setQuery: (value: string) => void;
   inputRef: React.Ref<HTMLInputElement>;
+  setSelectedCompany: (newCompany: TCompany) => void;
   setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
 }
 
-function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSeries, inputRef }: SearchProps) {
+function Search({ setSelectedCompany, closeModal, setShouldFetchDailyStockTimeSeries, inputRef }: SearchProps) {
+  const [query, setQuery] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState<string[]>();
   const [isStockSymbolSet, setIsStockSymbolSet] = React.useState(false);
@@ -37,6 +38,10 @@ function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSerie
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setShouldFetchDailyStockTimeSeries(true);
+    setSelectedCompany({
+      symbol: query.split(" - ")[0],
+      companyName: query.split(" - ")[1],
+    });
     closeModal();
   }
 
@@ -63,11 +68,11 @@ function Search({ query, setQuery, closeModal, setShouldFetchDailyStockTimeSerie
             <Input
               required
               type="text"
-              value={query}
               ref={inputRef}
               variant="flushed"
               name="searchQuery"
               onChange={handleChange}
+              value={query.split(" - ")[0]}
               placeholder="e.g. GOOGL/Google"
             />
             <FormHelperText>

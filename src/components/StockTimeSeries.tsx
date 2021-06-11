@@ -1,8 +1,9 @@
 import * as React from "react";
 import { extent } from "d3-array";
 import { Range } from "react-date-range";
-import { Stack, chakra, Tag, TagLabel, HStack } from "@chakra-ui/react";
+import { Stack, chakra, HStack, Text, useTheme } from "@chakra-ui/react";
 
+import { TCompany } from "./App";
 import StockChart from "./StockChart";
 import FilterStockTimeSeries from "./FilterStockTimeSeries";
 import StockTimeSeriesLoader from "./StockTimeSeriesLoader";
@@ -14,13 +15,13 @@ export type DateInterval = {
 } & Range;
 
 type StockTimeSeriesProps = {
-  query: string;
+  selectedCompany: TCompany;
   shouldFetchDailyStockTimeSeries: boolean;
   setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
 };
 
 function StockTimeSeries({
-  query,
+  selectedCompany,
   shouldFetchDailyStockTimeSeries,
   setShouldFetchDailyStockTimeSeries,
 }: StockTimeSeriesProps) {
@@ -39,7 +40,7 @@ function StockTimeSeries({
 
     async function fetchDailyStockTimeSeries() {
       setIsLoading(true);
-      let stockTimeSeries = await getDailyStockTimeSeries(query);
+      let stockTimeSeries = await getDailyStockTimeSeries(selectedCompany.symbol);
 
       if (stockTimeSeries) {
         let normalizedData = normalizeStockData(stockTimeSeries);
@@ -65,21 +66,27 @@ function StockTimeSeries({
     }
   }, [filterInterval, fullStockTimeSeries]);
 
+  const theme = useTheme();
+
   return isLoading ? (
     <StockTimeSeriesLoader />
   ) : fullStockTimeSeries ? (
     <HStack spacing="10em">
       <Stack spacing={3} gridColumn="2 / span 1">
-        <chakra.p>
-          Stock data available between{" "}
-          <Tag size="lg" variant="solid" fontSize="md">
-            <TagLabel>{minDate}</TagLabel>
-          </Tag>{" "}
+        <Text as="h3">
+          You're looking at stock data for{" "}
+          <Text as="span" fontSize="2xl" fontWeight="semibold" color={theme.colors.blue[500]}>
+            {selectedCompany.companyName}
+          </Text>{" "}
+          between{" "}
+          <Text as="span" fontSize="xl" fontWeight="semibold" color={theme.colors.blue[500]}>
+            {minDate}
+          </Text>{" "}
           and{" "}
-          <Tag size="lg" variant="solid" fontSize="md">
-            <TagLabel>{maxDate}</TagLabel>
-          </Tag>
-        </chakra.p>
+          <Text as="span" fontSize="xl" fontWeight="semibold" color={theme.colors.blue[500]}>
+            {maxDate}
+          </Text>
+        </Text>
         <StockChart
           width={800}
           height={480}
