@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Input, Stack, theme, chakra, Button, FormControl, FormHelperText } from "@chakra-ui/react";
 
-import { TCompany } from "./App";
 import SuggestionsList from "./SuggestionsList";
+import { AppContext, AppActions } from "./AppContext";
 import { getSuggestions } from "../services/getSuggestions";
 import { normalizeSuggestions } from "../utils/suggestions";
 
 interface SearchProps {
   closeModal: () => void;
   inputRef: React.Ref<HTMLInputElement>;
-  setSelectedCompany: (newCompany: TCompany) => void;
-  setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
 }
 
-function Search({ setSelectedCompany, closeModal, setShouldFetchDailyStockTimeSeries, inputRef }: SearchProps) {
+function Search({ closeModal, inputRef }: SearchProps) {
+  const { dispatch } = React.useContext(AppContext);
+
   const [query, setQuery] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState<string[]>();
@@ -37,11 +37,20 @@ function Search({ setSelectedCompany, closeModal, setShouldFetchDailyStockTimeSe
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setShouldFetchDailyStockTimeSeries(true);
-    setSelectedCompany({
-      symbol: query.split(" - ")[0],
-      companyName: query.split(" - ")[1],
+
+    dispatch({
+      type: AppActions.SHOULD_FETCH_STOCK_DATA,
+      payload: true,
     });
+
+    dispatch({
+      type: AppActions.SET_COMPANY,
+      payload: {
+        symbol: query.split(" - ")[0],
+        name: query.split(" - ")[1],
+      },
+    });
+
     closeModal();
   }
 

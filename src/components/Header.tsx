@@ -14,19 +14,11 @@ import { FaSearch } from "react-icons/fa";
 
 import Logo from "./Logo";
 import Search from "./Search";
-import { TCompany } from "./App";
 
-type HeaderProps = {
-  setSelectedCompany: (newCompany: TCompany) => void;
-  setShouldFetchDailyStockTimeSeries: (shouldFetchDailyStockTimeSeries: boolean) => void;
-};
-
-function Header(props: HeaderProps) {
-  const { setSelectedCompany, setShouldFetchDailyStockTimeSeries } = props;
-
+function Header() {
   const searchInputRef = React.useRef(null);
-
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+
   return (
     <Flex as="header" p={5} fontSize="2xl" direction="column" alignItems="center">
       <Logo />
@@ -39,12 +31,7 @@ function Header(props: HeaderProps) {
           <ModalHeader>Search for a stock symbol/company name</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Search
-              closeModal={onToggle}
-              inputRef={searchInputRef}
-              setSelectedCompany={setSelectedCompany}
-              setShouldFetchDailyStockTimeSeries={setShouldFetchDailyStockTimeSeries}
-            />
+            <Search closeModal={onToggle} inputRef={searchInputRef} />
           </ModalBody>
         </ModalContent>
       </Modal>

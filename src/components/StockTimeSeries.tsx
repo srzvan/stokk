@@ -3,8 +3,8 @@ import { extent } from "d3-array";
 import { Range } from "react-date-range";
 import { Stack, chakra, HStack, Text, useTheme } from "@chakra-ui/react";
 
-import { TCompany } from "./App";
 import StockChart from "./StockChart";
+import { AppActions, AppContext } from "./AppContext";
 import FilterStockTimeSeries from "./FilterStockTimeSeries";
 import StockTimeSeriesLoader from "./StockTimeSeriesLoader";
 import { getDailyStockTimeSeries } from "../services/getDailyStockTimeSeries";
@@ -14,17 +14,9 @@ export type DateInterval = {
   key: string;
 } & Range;
 
-type StockTimeSeriesProps = {
-  selectedCompany: TCompany;
-  shouldFetchDailyStockTimeSeries: boolean;
-  setShouldFetchDailyStockTimeSeries: (value: boolean) => void;
-};
+function StockTimeSeries() {
+  const { company, shouldFetchStockData, dispatch } = React.useContext(AppContext);
 
-function StockTimeSeries({
-  selectedCompany,
-  shouldFetchDailyStockTimeSeries,
-  setShouldFetchDailyStockTimeSeries,
-}: StockTimeSeriesProps) {
   const [minDate, setMinDate] = React.useState("");
   const [maxDate, setMaxDate] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -34,13 +26,13 @@ function StockTimeSeries({
   const [fullStockTimeSeries, setFullStockTimeSeries] = React.useState<NormalizedTimeSeries>();
 
   React.useEffect(() => {
-    if (shouldFetchDailyStockTimeSeries) {
+    if (shouldFetchStockData) {
       fetchDailyStockTimeSeries();
     }
 
     async function fetchDailyStockTimeSeries() {
       setIsLoading(true);
-      let stockTimeSeries = await getDailyStockTimeSeries(selectedCompany.symbol);
+      let stockTimeSeries = await getDailyStockTimeSeries(company.symbol);
 
       if (stockTimeSeries) {
         let normalizedData = normalizeStockData(stockTimeSeries);
@@ -50,13 +42,19 @@ function StockTimeSeries({
         setMaxDate(max!);
 
         setFullStockTimeSeries(normalizedData);
-        setShouldFetchDailyStockTimeSeries(false);
+
+        dispatch({
+          type: AppActions.SHOULD_FETCH_STOCK_DATA,
+          payload: false,
+        });
+
         setIsLoading(false);
       } else {
         throw new Error("There is no data for the selected company 😕");
       }
     }
-  }, [shouldFetchDailyStockTimeSeries]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchStockData]);
 
   React.useLayoutEffect(() => {
     if (filterInterval?.start && filterInterval?.end && fullStockTimeSeries) {
@@ -76,7 +74,7 @@ function StockTimeSeries({
         <Text as="h3">
           You're looking at stock data for{" "}
           <Text as="span" fontSize="2xl" fontWeight="semibold" color={theme.colors.blue[500]}>
-            {selectedCompany.companyName}
+            {company.name}
           </Text>{" "}
           between{" "}
           <Text as="span" fontSize="xl" fontWeight="semibold" color={theme.colors.blue[500]}>
