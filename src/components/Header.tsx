@@ -8,24 +8,43 @@ import {
   ModalContent,
   useDisclosure,
   ModalCloseButton,
-} from "@chakra-ui/react";
-import * as React from "react";
-import { FaSearch } from "react-icons/fa";
+} from '@chakra-ui/react';
+import * as React from 'react';
+import { FaSearch } from 'react-icons/fa';
 
-import Logo from "./Logo";
-import Search from "./Search";
+import { Logo } from './Logo';
+import { Search } from './Search';
 
-function Header() {
+export const Header: React.FC = () => {
   const searchInputRef = React.useRef(null);
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
 
   return (
-    <Flex as="header" p={5} fontSize="2xl" direction="column" alignItems="center">
+    <Flex
+      p={5}
+      as="header"
+      fontSize="2xl"
+      direction="column"
+      alignItems="center"
+    >
       <Logo />
-      <Button variant="outline" size="md" colorScheme="blue" onClick={onOpen} fontSize="xl" rightIcon={<FaSearch />}>
+      <Button
+        size="md"
+        fontSize="xl"
+        onClick={onOpen}
+        variant="outline"
+        colorScheme="blue"
+        rightIcon={<FaSearch />}
+      >
         Search
       </Button>
-      <Modal onClose={onClose} size="xl" isOpen={isOpen} motionPreset="scale" initialFocusRef={searchInputRef}>
+      <Modal
+        size="xl"
+        isOpen={isOpen}
+        onClose={onClose}
+        motionPreset="scale"
+        initialFocusRef={searchInputRef}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Search for a stock symbol/company name</ModalHeader>
@@ -37,6 +56,4 @@ function Header() {
       </Modal>
     </Flex>
   );
-}
-
-export default Header;
+};

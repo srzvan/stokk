@@ -1,20 +1,28 @@
-import * as React from "react";
-import { Input, Stack, theme, chakra, Button, FormControl, FormHelperText } from "@chakra-ui/react";
+import {
+  Input,
+  Stack,
+  theme,
+  chakra,
+  Button,
+  FormControl,
+  FormHelperText,
+} from '@chakra-ui/react';
+import * as React from 'react';
 
-import SuggestionsList from "./SuggestionsList";
-import { AppContext, AppActions } from "./AppContext";
-import { getSuggestions } from "../services/getSuggestions";
-import { normalizeSuggestions } from "../utils/suggestions";
+import SuggestionsList from './SuggestionsList';
+import { AppContext, AppActions } from './AppContext';
+import { getSuggestions } from '../services/getSuggestions';
+import { normalizeSuggestions } from '../utils/suggestions';
 
 interface SearchProps {
   closeModal: () => void;
   inputRef: React.Ref<HTMLInputElement>;
 }
 
-function Search({ closeModal, inputRef }: SearchProps) {
+export const Search: React.FC<SearchProps> = ({ closeModal, inputRef }) => {
   const { dispatch } = React.useContext(AppContext);
 
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState<string[]>();
   const [isStockSymbolSet, setIsStockSymbolSet] = React.useState(false);
@@ -46,8 +54,8 @@ function Search({ closeModal, inputRef }: SearchProps) {
     dispatch({
       type: AppActions.SET_COMPANY,
       payload: {
-        symbol: query.split(" - ")[0],
-        name: query.split(" - ")[1],
+        symbol: query.split(' - ')[0],
+        name: query.split(' - ')[1],
       },
     });
 
@@ -81,23 +89,30 @@ function Search({ closeModal, inputRef }: SearchProps) {
               variant="flushed"
               name="searchQuery"
               onChange={handleChange}
-              value={query.split(" - ")[0]}
+              value={query.split(' - ')[0]}
               placeholder="e.g. GOOGL/Google"
             />
             <FormHelperText>
-              Type the name of a stock symbol/company &amp; click on any of the suggestions
+              Type the name of a stock symbol/company &amp; click on any of the
+              suggestions
             </FormHelperText>
           </FormControl>
           {suggestions && suggestions?.length > 0 ? (
-            <SuggestionsList suggestions={suggestions} setQuery={setQuery} setIsStockSymbolSet={setIsStockSymbolSet} />
+            <SuggestionsList
+              setQuery={setQuery}
+              suggestions={suggestions}
+              setIsStockSymbolSet={setIsStockSymbolSet}
+            />
           ) : null}
         </Stack>
-        <Button type="submit" disabled={!isStockSymbolSet} isLoading={isLoading}>
+        <Button
+          type="submit"
+          isLoading={isLoading}
+          disabled={!isStockSymbolSet}
+        >
           Load stock data for selected company
         </Button>
       </Stack>
     </chakra.form>
   );
-}
-
-export default Search;
+};
