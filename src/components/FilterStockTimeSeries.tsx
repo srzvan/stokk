@@ -1,31 +1,30 @@
 import * as React from "react";
+import { Range, DateRange } from "react-date-range";
 import { Button, chakra, FormControl, FormHelperText, FormLabel, Stack, Switch } from "@chakra-ui/react";
-import { DateRange } from "react-date-range";
-
-import { DateInterval } from "./StockTimeSeries";
 
 const ChakraDateRange = chakra(DateRange);
 
 type FilterStockTimeSeriesProps = {
-  setFilterInterval: (newFilterInterval: { start: Date; end: Date }) => void;
-  setShowAverage: (newShowAverage: boolean) => void;
   minDate: string;
   maxDate: string;
+  setShowAverage: (newShowAverage: boolean) => void;
+  setFilterInterval: (newFilterInterval: { start: Date; end: Date }) => void;
 };
 
-const FilterStockTimeSeries = (props: FilterStockTimeSeriesProps) => {
-  const { setFilterInterval, setShowAverage, minDate, maxDate } = props;
-
-  const [dateRange, setDateRange] = React.useState<DateInterval[]>([
-    {
-      key: "selection",
-      startDate: undefined,
-      endDate: undefined,
-    },
-  ]);
+const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
+  minDate,
+  maxDate,
+  setShowAverage,
+  setFilterInterval,
+}) => {
+  const [dateRange, setDateRange] = React.useState<Pick<Range, "key" | "startDate" | "endDate">>({
+    key: "selection",
+    startDate: new Date(),
+    endDate: new Date(),
+  });
 
   function handleDateIntervalChange(item: any) {
-    setDateRange([item.selection]);
+    setDateRange(item.selection);
   }
 
   function handleSwitchChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -34,10 +33,8 @@ const FilterStockTimeSeries = (props: FilterStockTimeSeriesProps) => {
 
   function handleFilter() {
     setFilterInterval({
-      //@ts-ignore
-      start: dateRange[0].startDate,
-      //@ts-ignore
-      end: dateRange[0].endDate,
+      start: dateRange.startDate!,
+      end: dateRange.endDate!,
     });
   }
 
@@ -46,16 +43,16 @@ const FilterStockTimeSeries = (props: FilterStockTimeSeriesProps) => {
       <FormControl>
         <FormLabel fontSize="lg">Date interval for stock time series</FormLabel>
         <ChakraDateRange
+          w="100%"
+          weekStartsOn={1}
+          ranges={[dateRange]}
           minDate={new Date(minDate)}
           maxDate={new Date(maxDate)}
-          startDatePlaceholder="Start date"
           endDatePlaceholder="End date"
-          ranges={dateRange}
-          moveRangeOnFirstSelection={false}
-          weekStartsOn={1}
           dateDisplayFormat="d MMM, yyyy"
+          startDatePlaceholder="Start date"
+          moveRangeOnFirstSelection={false}
           onChange={handleDateIntervalChange}
-          w="100%"
         />
         <FormHelperText fontSize="md">Select start &amp; end dates in order to filter the stock data</FormHelperText>
       </FormControl>
