@@ -11,7 +11,7 @@ type FilterStockTimeSeriesProps = {
   setFilterInterval: (newFilterInterval: { start: Date; end: Date }) => void;
 };
 
-const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
+export const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
   minDate,
   maxDate,
   setShowAverage,
@@ -68,5 +68,3 @@ const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
     </Stack>
   );
 };
-
-export default FilterStockTimeSeries;

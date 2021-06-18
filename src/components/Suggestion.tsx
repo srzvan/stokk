@@ -7,21 +7,19 @@ interface IProps {
   setIsStockSymbolSet: (value: boolean) => void;
 }
 
-function Suggestion({ suggestion, setIsStockSymbolSet, setQuery }: IProps) {
-  return (
-    <Box
-      as="p"
-      cursor="pointer"
-      onClick={() => {
-        setQuery(suggestion);
-        setIsStockSymbolSet(true);
-      }}
-      borderBottom="1px solid transparent"
-      _hover={{ borderBottomColor: theme.colors.gray[100] }}
-    >
-      {suggestion}
-    </Box>
-  );
-}
+const Suggestion: React.FC<IProps> = ({ suggestion, setIsStockSymbolSet, setQuery }) => (
+  <Box
+    as="p"
+    cursor="pointer"
+    onClick={() => {
+      setQuery(suggestion);
+      setIsStockSymbolSet(true);
+    }}
+    borderBottom="1px solid transparent"
+    _hover={{ borderBottomColor: theme.colors.gray[100] }}
+  >
+    {suggestion}
+  </Box>
+);
 
 export default Suggestion;

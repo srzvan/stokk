@@ -12,10 +12,10 @@ import {
 import * as React from "react";
 import { FaSearch } from "react-icons/fa";
 
-import Logo from "./Logo";
-import Search from "./Search";
+import { Logo } from "./Logo";
+import { Search } from "./Search";
 
-function Header() {
+export const Header: React.FC = () => {
   const searchInputRef = React.useRef(null);
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
 
@@ -37,6 +37,4 @@ function Header() {
       </Modal>
     </Flex>
   );
-}
-
-export default Header;
+};

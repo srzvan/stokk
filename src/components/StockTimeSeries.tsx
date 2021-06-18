@@ -3,10 +3,10 @@ import { extent } from "d3-array";
 import { Range } from "react-date-range";
 import { Stack, chakra, HStack, Text, useTheme } from "@chakra-ui/react";
 
-import StockChart from "./StockChart";
+import { StockChart } from "./StockChart";
 import { AppActions, AppContext } from "./AppContext";
-import FilterStockTimeSeries from "./FilterStockTimeSeries";
-import StockTimeSeriesLoader from "./StockTimeSeriesLoader";
+import { FilterStockTimeSeries } from "./FilterStockTimeSeries";
+import { StockTimeSeriesLoader } from "./StockTimeSeriesLoader";
 import { getDailyStockTimeSeries } from "../services/getDailyStockTimeSeries";
 import { filterTimeSeries, NormalizedTimeSeries, normalizeStockData } from "../utils/daily-stock-time-series";
 
@@ -14,7 +14,7 @@ export type DateInterval = {
   key: string;
 } & Range;
 
-function StockTimeSeries() {
+export const StockTimeSeries: React.FC = () => {
   const { company, shouldFetchStockData, dispatch } = React.useContext(AppContext);
 
   const [minDate, setMinDate] = React.useState("");
@@ -112,6 +112,4 @@ function StockTimeSeries() {
       Search for a company to load its stock data. Afterwards you can filter it using the calendar.
     </chakra.p>
   );
-}
-
-export default StockTimeSeries;
+};

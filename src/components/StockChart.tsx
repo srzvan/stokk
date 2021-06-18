@@ -1,20 +1,20 @@
 import * as React from "react";
+import { max, extent } from "d3-array";
+import { localPoint } from "@visx/event";
+import { curveMonotoneX } from "@visx/curve";
 import { Box, theme } from "@chakra-ui/react";
 import { LinearGradient } from "@visx/gradient";
-import { scaleTime, scaleLinear } from "@visx/scale";
 import { GridRows, GridColumns } from "@visx/grid";
+import { scaleTime, scaleLinear } from "@visx/scale";
 import { AreaClosed, Line, Bar, LinePath } from "@visx/shape";
-import { curveMonotoneX } from "@visx/curve";
-import { localPoint } from "@visx/event";
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
-import { max, extent } from "d3-array";
 
 import {
+  getDate,
   bisectDate,
   formatDate,
-  getDate,
-  getStockAverageValue,
   getStockHighValue,
+  getStockAverageValue,
   NormalizedTimeSeries,
   NormalizedTimeSeriesItem,
 } from "../utils/daily-stock-time-series";
@@ -26,14 +26,14 @@ type AreaProps = {
 };
 
 type StockChartProps = {
-  stockTimeSeries: NormalizedTimeSeries;
   showAverage: boolean;
+  stockTimeSeries: NormalizedTimeSeries;
 } & AreaProps;
 
 const styles = {
   accent: {
-    light: "#edffea",
     dark: "#75daad",
+    light: "#edffea",
   },
   background: {
     dark: "#3b6978",
@@ -43,9 +43,9 @@ const styles = {
 
 const tooltipHighStyles = {
   ...defaultStyles,
-  background: styles.background.dark,
-  border: "1px solid white",
   color: "white",
+  border: "1px solid white",
+  background: styles.background.dark,
 };
 
 const tooltipAverageStyles = {
@@ -53,9 +53,7 @@ const tooltipAverageStyles = {
   background: theme.colors.orange[500],
 };
 
-function StockChart(props: StockChartProps) {
-  const { stockTimeSeries, showAverage, width, height, margin } = props;
-
+export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAverage, width, height, margin }) => {
   const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } = useTooltip<NormalizedTimeSeriesItem>();
 
   const xMax = margin ? width - margin.left - margin.right : width;
@@ -109,80 +107,80 @@ function StockChart(props: StockChartProps) {
         <LinearGradient id="area-background-gradient" from={styles.background.dark} to={styles.background.darker} />
         <LinearGradient id="area-gradient" from={styles.accent.light} to={styles.accent.light} toOpacity={0.1} />
         <GridRows
-          scale={stockValueScale}
           width={xMax}
-          strokeDasharray="3,3"
-          stroke={styles.accent.light}
           strokeOpacity={0.3}
           pointerEvents="none"
+          strokeDasharray="3,3"
+          scale={stockValueScale}
+          stroke={styles.accent.light}
         />
         <GridColumns
-          scale={dateScale}
           height={yMax}
-          strokeDasharray="3,3"
-          stroke={styles.accent.light}
+          scale={dateScale}
           strokeOpacity={0.3}
           pointerEvents="none"
+          strokeDasharray="3,3"
+          stroke={styles.accent.light}
         />
         <AreaClosed<NormalizedTimeSeriesItem>
+          strokeWidth={1}
           data={stockTimeSeries}
+          curve={curveMonotoneX}
+          yScale={stockValueScale}
+          fill="url(#area-gradient)"
+          stroke="url(#area-gradient)"
           x={d => dateScale(getDate(d))}
           y={d => stockValueScale(getStockHighValue(d))}
-          yScale={stockValueScale}
-          strokeWidth={1}
-          stroke="url(#area-gradient)"
-          fill="url(#area-gradient)"
-          curve={curveMonotoneX}
         />
         {showAverage && (
           <LinePath
-            stroke={theme.colors.orange[500]}
             strokeWidth={1.5}
             data={stockTimeSeries}
-            x={d => dateScale(getDate(d))}
-            y={d => stockValueScale(getStockAverageValue(d))}
             curve={curveMonotoneX}
+            x={d => dateScale(getDate(d))}
+            stroke={theme.colors.orange[500]}
+            y={d => stockValueScale(getStockAverageValue(d))}
           />
         )}
         <Bar
           x={0}
           y={0}
+          rx={14}
           width={width}
           height={height}
           fill="transparent"
-          rx={14}
           onMouseMove={handleTooltip}
           onMouseLeave={() => hideTooltip()}
         />
         {tooltipData && tooltipTop && (
           <g>
             <Line
-              from={{ x: tooltipLeft, y: 0 }}
-              to={{ x: tooltipLeft, y: yMax }}
-              stroke={styles.accent.dark}
               strokeWidth={2}
               pointerEvents="none"
               strokeDasharray="5,2"
+              stroke={styles.accent.dark}
+              from={{ x: tooltipLeft, y: 0 }}
+              to={{ x: tooltipLeft, y: yMax }}
             />
             <circle
-              cx={tooltipLeft}
-              cy={tooltipTop + 1}
               r={4}
               fill="black"
-              fillOpacity={0.1}
               stroke="black"
-              strokeOpacity={0.1}
               strokeWidth={2}
+              cx={tooltipLeft}
+              fillOpacity={0.1}
+              cy={tooltipTop + 1}
+              strokeOpacity={0.1}
               pointerEvents="none"
             />
             <circle
-              cx={tooltipLeft}
-              cy={tooltipTop}
               r={4}
-              fill={styles.accent.dark}
               stroke="white"
+              cy={tooltipTop}
               strokeWidth={2}
+              cx={tooltipLeft}
               pointerEvents="none"
+              fill={styles.accent.dark}
             />
           </g>
         )}
@@ -213,6 +211,4 @@ function StockChart(props: StockChartProps) {
       )}
     </Box>
   );
-}
-
-export default StockChart;
+};

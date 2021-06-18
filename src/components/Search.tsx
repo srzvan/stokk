@@ -11,7 +11,7 @@ interface SearchProps {
   inputRef: React.Ref<HTMLInputElement>;
 }
 
-function Search({ closeModal, inputRef }: SearchProps) {
+export const Search: React.FC<SearchProps> = ({ closeModal, inputRef }) => {
   const { dispatch } = React.useContext(AppContext);
 
   const [query, setQuery] = React.useState("");
@@ -98,6 +98,4 @@ function Search({ closeModal, inputRef }: SearchProps) {
       </Stack>
     </chakra.form>
   );
-}
-
-export default Search;
+};

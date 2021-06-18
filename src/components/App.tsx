@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ChakraProvider, Box, Grid, extendTheme, Flex } from "@chakra-ui/react";
 
-import Header from "./Header";
-import StockTimeSeries from "./StockTimeSeries";
+import { Header } from "./Header";
+import { StockTimeSeries } from "./StockTimeSeries";
 import { TAction, AppActions, AppContext, IAppState } from "./AppContext";
 
 const theme = extendTheme({
@@ -28,7 +28,7 @@ function reducer(state: IAppState, action: TAction) {
   }
 }
 
-export function App() {
+export const App: React.FC = () => {
   const [state, dispatch] = React.useReducer(reducer, {
     company: { symbol: "", name: "" },
     shouldFetchStockData: false,
@@ -57,4 +57,4 @@ export function App() {
       </Grid>
     </ChakraProvider>
   );
-}
+};
