@@ -1,6 +1,6 @@
 export enum DailyStockTimeSeriesItemValuesKeys {
-  HIGH = "2. high",
-  LOW = "3. low",
+  HIGH = '2. high',
+  LOW = '3. low',
 }
 
 export type DailyStockTimeSeriesItemValues = {
@@ -8,7 +8,7 @@ export type DailyStockTimeSeriesItemValues = {
 };
 
 export enum StockAPIResponseKeys {
-  TIME_SERIES_DAILY = "Time Series (Daily)",
+  TIME_SERIES_DAILY = 'Time Series (Daily)',
 }
 
 type DailyStockTimeSeries = {
@@ -25,6 +25,7 @@ export async function getDailyStockTimeSeries(searchQuery: string) {
     let response = await fetch(
       `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${searchQuery}&outputsize=full&apikey=${apiKey}`
     );
+
     return await response.json();
   } catch (err) {
     throw new Error(err);

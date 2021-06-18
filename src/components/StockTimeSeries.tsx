@@ -46,8 +46,8 @@ export const StockTimeSeries: React.FC = () => {
         let normalizedData = normalizeStockData(stockTimeSeries);
         let [min, max] = extent(normalizedData, (dataPoint) => dataPoint.date);
 
-        setMinDate(min!);
-        setMaxDate(max!);
+        setMinDate(min ?? '');
+        setMaxDate(max ?? '');
 
         setFullStockTimeSeries(normalizedData);
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export type TCompany = {
-  symbol: string;
   name: string;
+  symbol: string;
 };
 
 export interface IAppState {

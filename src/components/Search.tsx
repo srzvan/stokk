@@ -107,8 +107,8 @@ export const Search: React.FC<SearchProps> = ({ closeModal, inputRef }) => {
         </Stack>
         <Button
           type="submit"
-          disabled={!isStockSymbolSet}
           isLoading={isLoading}
+          disabled={!isStockSymbolSet}
         >
           Load stock data for selected company
         </Button>

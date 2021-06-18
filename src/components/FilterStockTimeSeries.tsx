@@ -42,10 +42,12 @@ export const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
   }
 
   function handleFilter() {
-    setFilterInterval({
-      start: dateRange.startDate!,
-      end: dateRange.endDate!,
-    });
+    if (dateRange.startDate && dateRange.endDate) {
+      setFilterInterval({
+        start: dateRange.startDate,
+        end: dateRange.endDate,
+      });
+    }
   }
 
   return (

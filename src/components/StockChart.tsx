@@ -19,16 +19,16 @@ import {
   NormalizedTimeSeriesItem,
 } from '../utils/daily-stock-time-series';
 
-type AreaProps = {
+interface AreaProps {
   width: number;
   height: number;
   margin?: { top: number; right: number; bottom: number; left: number };
-};
+}
 
-type StockChartProps = {
+interface StockChartProps extends AreaProps {
   showAverage: boolean;
   stockTimeSeries: NormalizedTimeSeries;
-} & AreaProps;
+}
 
 const styles = {
   accent: {
@@ -78,9 +78,9 @@ export const StockChart: React.FC<StockChartProps> = ({
   const stockValueScale = React.useMemo(
     () =>
       scaleLinear({
+        nice: true,
         range: [yMax, 0],
         domain: [0, (max(stockTimeSeries, getStockHighValue) || 0) + yMax / 3],
-        nice: true,
       }),
     [yMax, stockTimeSeries]
   );
@@ -117,10 +117,10 @@ export const StockChart: React.FC<StockChartProps> = ({
         <rect
           x={0}
           y={0}
+          rx={14}
           width={width}
           height={height}
           fill="url(#area-background-gradient)"
-          rx={14}
         />
         <LinearGradient
           id="area-background-gradient"
@@ -128,10 +128,10 @@ export const StockChart: React.FC<StockChartProps> = ({
           to={styles.background.darker}
         />
         <LinearGradient
-          id="area-gradient"
-          from={styles.accent.light}
-          to={styles.accent.light}
           toOpacity={0.1}
+          id="area-gradient"
+          to={styles.accent.light}
+          from={styles.accent.light}
         />
         <GridRows
           width={xMax}
