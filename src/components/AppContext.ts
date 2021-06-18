@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 export type TCompany = {
   symbol: string;
@@ -15,8 +15,8 @@ interface IAppContext extends IAppState {
 }
 
 export enum AppActions {
-  SET_COMPANY = "SET_COMPANY",
-  SHOULD_FETCH_STOCK_DATA = "SHOULD_FETCH_STOCK_DATA",
+  SET_COMPANY = 'SET_COMPANY',
+  SHOULD_FETCH_STOCK_DATA = 'SHOULD_FETCH_STOCK_DATA',
 }
 
 export type TAction =
@@ -31,8 +31,8 @@ export type TAction =
 
 export const AppContext = React.createContext<IAppContext>({
   company: {
-    symbol: "",
-    name: "",
+    symbol: '',
+    name: '',
   },
   shouldFetchStockData: false,
   dispatch: () => undefined,

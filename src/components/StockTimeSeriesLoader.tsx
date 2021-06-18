@@ -1,9 +1,18 @@
-import * as React from "react";
-import { Box, CircularProgress, Stack, theme } from "@chakra-ui/react";
+import * as React from 'react';
+import { Box, CircularProgress, Stack, theme } from '@chakra-ui/react';
 
 export const StockTimeSeriesLoader: React.FC = () => (
-  <Stack gridColumn="2 / span 2" gridRow="1 / -1" justifySelf="center" alignSelf="center">
+  <Stack
+    gridRow="1 / -1"
+    alignSelf="center"
+    justifySelf="center"
+    gridColumn="2 / span 2"
+  >
     <Box as="p">Loading company data...</Box>
-    <CircularProgress isIndeterminate size="3xs" color={theme.colors.teal[500]} />
+    <CircularProgress
+      size="3xs"
+      isIndeterminate
+      color={theme.colors.teal[500]}
+    />
   </Stack>
 );

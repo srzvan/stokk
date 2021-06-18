@@ -1,13 +1,13 @@
-import * as React from "react";
-import { max, extent } from "d3-array";
-import { localPoint } from "@visx/event";
-import { curveMonotoneX } from "@visx/curve";
-import { Box, theme } from "@chakra-ui/react";
-import { LinearGradient } from "@visx/gradient";
-import { GridRows, GridColumns } from "@visx/grid";
-import { scaleTime, scaleLinear } from "@visx/scale";
-import { AreaClosed, Line, Bar, LinePath } from "@visx/shape";
-import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
+import * as React from 'react';
+import { max, extent } from 'd3-array';
+import { localPoint } from '@visx/event';
+import { curveMonotoneX } from '@visx/curve';
+import { Box, theme } from '@chakra-ui/react';
+import { LinearGradient } from '@visx/gradient';
+import { GridRows, GridColumns } from '@visx/grid';
+import { scaleTime, scaleLinear } from '@visx/scale';
+import { AreaClosed, Line, Bar, LinePath } from '@visx/shape';
+import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 
 import {
   getDate,
@@ -17,7 +17,7 @@ import {
   getStockAverageValue,
   NormalizedTimeSeries,
   NormalizedTimeSeriesItem,
-} from "../utils/daily-stock-time-series";
+} from '../utils/daily-stock-time-series';
 
 type AreaProps = {
   width: number;
@@ -32,19 +32,19 @@ type StockChartProps = {
 
 const styles = {
   accent: {
-    dark: "#75daad",
-    light: "#edffea",
+    dark: '#75daad',
+    light: '#edffea',
   },
   background: {
-    dark: "#3b6978",
-    darker: "#204051",
+    dark: '#3b6978',
+    darker: '#204051',
   },
 };
 
 const tooltipHighStyles = {
   ...defaultStyles,
-  color: "white",
-  border: "1px solid white",
+  color: 'white',
+  border: '1px solid white',
   background: styles.background.dark,
 };
 
@@ -53,8 +53,15 @@ const tooltipAverageStyles = {
   background: theme.colors.orange[500],
 };
 
-export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAverage, width, height, margin }) => {
-  const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } = useTooltip<NormalizedTimeSeriesItem>();
+export const StockChart: React.FC<StockChartProps> = ({
+  width,
+  height,
+  margin,
+  showAverage,
+  stockTimeSeries,
+}) => {
+  const { showTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } =
+    useTooltip<NormalizedTimeSeriesItem>();
 
   const xMax = margin ? width - margin.left - margin.right : width;
   const yMax = margin ? height - margin.top - margin.bottom : height;
@@ -88,7 +95,11 @@ export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAve
       let d = d0;
 
       if (d1 && getDate(d1)) {
-        d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
+        d =
+          x0.valueOf() - getDate(d0).valueOf() >
+          getDate(d1).valueOf() - x0.valueOf()
+            ? d1
+            : d0;
       }
 
       showTooltip({
@@ -103,9 +114,25 @@ export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAve
   return (
     <Box position="relative">
       <svg width={width} height={height}>
-        <rect x={0} y={0} width={width} height={height} fill="url(#area-background-gradient)" rx={14} />
-        <LinearGradient id="area-background-gradient" from={styles.background.dark} to={styles.background.darker} />
-        <LinearGradient id="area-gradient" from={styles.accent.light} to={styles.accent.light} toOpacity={0.1} />
+        <rect
+          x={0}
+          y={0}
+          width={width}
+          height={height}
+          fill="url(#area-background-gradient)"
+          rx={14}
+        />
+        <LinearGradient
+          id="area-background-gradient"
+          from={styles.background.dark}
+          to={styles.background.darker}
+        />
+        <LinearGradient
+          id="area-gradient"
+          from={styles.accent.light}
+          to={styles.accent.light}
+          toOpacity={0.1}
+        />
         <GridRows
           width={xMax}
           strokeOpacity={0.3}
@@ -129,17 +156,17 @@ export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAve
           yScale={stockValueScale}
           fill="url(#area-gradient)"
           stroke="url(#area-gradient)"
-          x={d => dateScale(getDate(d))}
-          y={d => stockValueScale(getStockHighValue(d))}
+          x={(d) => dateScale(getDate(d))}
+          y={(d) => stockValueScale(getStockHighValue(d))}
         />
         {showAverage && (
           <LinePath
             strokeWidth={1.5}
             data={stockTimeSeries}
             curve={curveMonotoneX}
-            x={d => dateScale(getDate(d))}
+            x={(d) => dateScale(getDate(d))}
             stroke={theme.colors.orange[500]}
-            y={d => stockValueScale(getStockAverageValue(d))}
+            y={(d) => stockValueScale(getStockAverageValue(d))}
           />
         )}
         <Bar
@@ -187,11 +214,19 @@ export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAve
       </svg>
       {tooltipData && tooltipTop && tooltipLeft && (
         <div>
-          <Tooltip top={tooltipTop - 12} left={tooltipLeft + 12} style={tooltipHighStyles}>
+          <Tooltip
+            top={tooltipTop - 12}
+            left={tooltipLeft + 12}
+            style={tooltipHighStyles}
+          >
             {`$${getStockHighValue(tooltipData)}`}
           </Tooltip>
           {showAverage && (
-            <Tooltip top={tooltipTop + 25} left={tooltipLeft + 12} style={tooltipAverageStyles}>
+            <Tooltip
+              top={tooltipTop + 25}
+              left={tooltipLeft + 12}
+              style={tooltipAverageStyles}
+            >
               Average: {`$${getStockAverageValue(tooltipData)}`}
             </Tooltip>
           )}
@@ -201,8 +236,8 @@ export const StockChart: React.FC<StockChartProps> = ({ stockTimeSeries, showAve
             style={{
               ...defaultStyles,
               minWidth: 72,
-              textAlign: "center",
-              transform: "translateX(-50%)",
+              textAlign: 'center',
+              transform: 'translateX(-50%)',
             }}
           >
             {formatDate(getDate(tooltipData))}

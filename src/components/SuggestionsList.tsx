@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Box, VStack, ScaleFade } from "@chakra-ui/react";
+import * as React from 'react';
+import { Box, VStack, ScaleFade } from '@chakra-ui/react';
 
-import Suggestion from "./Suggestion";
+import Suggestion from './Suggestion';
 
 interface IProps {
   suggestions: string[];
@@ -9,11 +9,15 @@ interface IProps {
   setIsStockSymbolSet: (value: boolean) => void;
 }
 
-const SuggestionsList: React.FC<IProps> = ({ suggestions, setIsStockSymbolSet, setQuery }) => (
+const SuggestionsList: React.FC<IProps> = ({
+  setQuery,
+  suggestions,
+  setIsStockSymbolSet,
+}) => (
   <VStack alignItems="start" maxHeight="10em" overflowY="auto">
     <Box w="100%">
       <ScaleFade initialScale={0.9} in={suggestions.length > 0}>
-        {suggestions.map(suggestion => (
+        {suggestions.map((suggestion) => (
           <Suggestion
             key={suggestion}
             setQuery={setQuery}

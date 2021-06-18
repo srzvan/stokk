@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Box, theme } from "@chakra-ui/react";
+import * as React from 'react';
+import { Box, theme } from '@chakra-ui/react';
 
 interface IProps {
   suggestion: string;
@@ -7,7 +7,11 @@ interface IProps {
   setIsStockSymbolSet: (value: boolean) => void;
 }
 
-const Suggestion: React.FC<IProps> = ({ suggestion, setIsStockSymbolSet, setQuery }) => (
+const Suggestion: React.FC<IProps> = ({
+  setQuery,
+  suggestion,
+  setIsStockSymbolSet,
+}) => (
   <Box
     as="p"
     cursor="pointer"

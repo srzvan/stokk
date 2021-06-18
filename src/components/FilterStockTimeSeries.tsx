@@ -1,6 +1,14 @@
-import * as React from "react";
-import { Range, DateRange } from "react-date-range";
-import { Button, chakra, FormControl, FormHelperText, FormLabel, Stack, Switch } from "@chakra-ui/react";
+import {
+  Stack,
+  Switch,
+  Button,
+  chakra,
+  FormLabel,
+  FormControl,
+  FormHelperText,
+} from '@chakra-ui/react';
+import * as React from 'react';
+import { Range, DateRange } from 'react-date-range';
 
 const ChakraDateRange = chakra(DateRange);
 
@@ -17,8 +25,10 @@ export const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
   setShowAverage,
   setFilterInterval,
 }) => {
-  const [dateRange, setDateRange] = React.useState<Pick<Range, "key" | "startDate" | "endDate">>({
-    key: "selection",
+  const [dateRange, setDateRange] = React.useState<
+    Pick<Range, 'key' | 'startDate' | 'endDate'>
+  >({
+    key: 'selection',
     startDate: new Date(),
     endDate: new Date(),
   });
@@ -54,7 +64,9 @@ export const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
           moveRangeOnFirstSelection={false}
           onChange={handleDateIntervalChange}
         />
-        <FormHelperText fontSize="md">Select start &amp; end dates in order to filter the stock data</FormHelperText>
+        <FormHelperText fontSize="md">
+          Select start &amp; end dates in order to filter the stock data
+        </FormHelperText>
       </FormControl>
       <FormControl display="flex" alignItems="center">
         <FormLabel htmlFor="average-stock-value" mb="0">
@@ -62,7 +74,12 @@ export const FilterStockTimeSeries: React.FC<FilterStockTimeSeriesProps> = ({
         </FormLabel>
         <Switch id="average-stock-value" onChange={handleSwitchChange} />
       </FormControl>
-      <Button type="submit" colorScheme="blue" variant="outline" onClick={handleFilter}>
+      <Button
+        type="submit"
+        colorScheme="blue"
+        variant="outline"
+        onClick={handleFilter}
+      >
         Filter
       </Button>
     </Stack>

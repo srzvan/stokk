@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Heading, Badge, Box } from "@chakra-ui/react";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import * as React from 'react';
+import { Heading, Badge, Box } from '@chakra-ui/react';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 
 export const Logo: React.FC = () => (
   <Heading as="h1" size="lg" mb={4}>
