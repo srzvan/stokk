@@ -34,6 +34,8 @@ export const App: React.FC = () => {
     shouldFetchStockData: false,
   });
 
+  console.log('testing the Graphite web application');
+
   return (
     <ChakraProvider theme={theme}>
       <Grid h="100%" templateRows="auto 1fr auto">
